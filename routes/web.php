@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Article;
 use Illuminate\Routing\Route as RoutingRoute;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
@@ -15,4 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/posts/{post}', 'PostsController@show');
+Route::get('/', function() {
+    return view('welcome');
+});
+
+Route::get('/about', function() {
+    return view('about', [
+        'articles' => Article::take(3)->latest()->get()
+    ]);
+});
+
+Route::get('/articles', 'ArticlesController@index');
+Route::get('/articles/{article}', 'ArticlesController@show');
+
+// Route::get('/posts/{post}', 'PostsController@show');
