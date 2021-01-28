@@ -21,6 +21,8 @@ Released   : 20140225
 <link href="/css/main.css" rel="stylesheet" />
 <link href="/css/fonts.css" rel="stylesheet" />
 
+@yield('head')
+
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
 
 </head>
