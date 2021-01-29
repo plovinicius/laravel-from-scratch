@@ -17,13 +17,9 @@ class ArticlesController extends Controller
 
 
     // Show a single resource.
-    public function show($id)
+    public function show(Article $article)
     {
-        $article = Article::find($id);
-
-        return view('articles.show', [
-            'article' => $article
-        ]);
+        return view('articles.show', compact('article'));
     }
 
     // Show a view to create a new resource.
@@ -35,50 +31,37 @@ class ArticlesController extends Controller
     // Persist the new resource.
     public function store()
     {
-        request()->validate([
-            'title' => 'required',
-            'excerpt' => 'required',
-            'body' => 'required'
-        ]);
+        Article::create($this->validateArticle());
 
-        $article = new Article();
-        $article->title = request('title');
-        $article->excerpt = request('excerpt');
-        $article->body = request('body');
-        $article->save();
-
-        return redirect('/articles');
+        return redirect(route('articles.store'));
     }
 
     // Show a view to edit a existing resource.
-    public function edit($id)
+    public function edit(Article $article)
     {
-        $article = Article::find($id);
-
         return view('articles.edit', compact('article'));
     }
 
     // Persist the edited resource.
-    public function update($id)
+    public function update(Article $article)
     {
-        request()->validate([
-            'title' => 'required',
-            'excerpt' => 'required',
-            'body' => 'required'
-        ]);
+        $article->update($this->validateArticle());
 
-        $article = Article::find($id);
-        $article->title = request('title');
-        $article->excerpt = request('excerpt');
-        $article->body = request('body');
-        $article->save();
-
-        return redirect('/articles/'. $article->id);
+        return redirect($article->path());
     }
 
     // Delete the resource.
     public function destroy()
     {
 
+    }
+
+    protected function validateArticle()
+    {
+        return request()->validate([
+            'title' => 'required',
+            'excerpt' => 'required',
+            'body' => 'required'
+        ]);
     }
 }
