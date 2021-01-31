@@ -1,8 +1,6 @@
 <?php
 
 use App\Models\Article;
-use Illuminate\Routing\Route as RoutingRoute;
-use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function() {
     return view('welcome');
-});
+})->name('index');
 
 Route::get('/about', function() {
     return view('about', [
@@ -33,4 +31,6 @@ Route::get('/articles/{article}', 'ArticlesController@show')->name('articles.sho
 Route::get('/articles/{article}/edit', 'ArticlesController@edit')->name('articles.edit');
 Route::put('/articles/{article}', 'ArticlesController@update')->name('articles.update');
 
-// Route::get('/posts/{post}', 'PostsController@show');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
